@@ -11,7 +11,7 @@
 
 <AnchorPane id="gameAnch" prefHeight="700.0" prefWidth="1000.0" stylesheets="@../CSS/GameScreen.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.GameScreenController">
    <children>
-      <Pane id="gamePane" layoutX="49.0" layoutY="50.0" prefHeight="600.0" prefWidth="600.0" stylesheets="@../CSS/GameScreen.css" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="350.0" AnchorPane.topAnchor="50.0" />
+      <Pane id="gamePane" fx:id="gamePane" layoutX="49.0" layoutY="50.0" prefHeight="600.0" prefWidth="600.0" stylesheets="@../CSS/GameScreen.css" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="350.0" AnchorPane.topAnchor="50.0" />
       <VBox layoutX="705.0" prefHeight="700.0" prefWidth="295.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="700.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Pane id="topPane" prefHeight="200.0" prefWidth="200.0" stylesheets="@../CSS/GameScreen.css">
@@ -28,7 +28,7 @@
                </children></Pane>
             <VBox id="menu" prefHeight="276.0" prefWidth="281.0" stylesheets="@../CSS/GameScreen.css">
                <children>
-                  <Button id="playbtn" fx:id="playbtn" mnemonicParsing="false" prefHeight="93.0" prefWidth="300.0" stylesheets="@../CSS/GameScreen.css">
+                  <Button id="playbtn" fx:id="playbtn" mnemonicParsing="false" onAction="#playGame" prefHeight="93.0" prefWidth="300.0" stylesheets="@../CSS/GameScreen.css">
                      <graphic>
                         <ImageView fitHeight="71.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -37,7 +37,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button id="breakbtn" fx:id="breakbtn" mnemonicParsing="false" prefHeight="93.0" prefWidth="300.0">
+                  <Button id="breakbtn" fx:id="breakbtn" mnemonicParsing="false" onAction="#stopGame" prefHeight="93.0" prefWidth="300.0">
                      <graphic>
                         <ImageView fitHeight="71.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
                            <image>
