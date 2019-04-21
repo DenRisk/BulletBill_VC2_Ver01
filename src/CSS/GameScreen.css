@@ -5,3 +5,22 @@
 #gamePane {
     -fx-background-color: white;
 }
+
+#menu {
+    -fx-background-color: #8FA1E3;
+}
+
+#playbtn, #breakbtn, #repeatbtn, #closebtn {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+}
+
+#playbtn:hover, #breakbtn:hover, #repeatbtn:hover{
+    -fx-background-color: #5F6B96;
+}
+
+
+
+#topPane, #botPane {
+    -fx-background-color: #8FA1E3;
+}

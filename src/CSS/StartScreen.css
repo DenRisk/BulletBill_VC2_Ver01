@@ -4,3 +4,7 @@
 #startgame, #quitgame {
     -fx-background-color:  #151928;
 }
+
+#startgame:hover, #quitgame:hover {
+    -fx-background-color: #5F6B96;
+}
