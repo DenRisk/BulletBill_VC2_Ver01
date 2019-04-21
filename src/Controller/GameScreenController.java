@@ -72,6 +72,5 @@ public class GameScreenController implements Initializable {
     }
 
     public void stopGame() {
-        animationTimer.stop();
-    }
+        animationTimer.stop(); }
 }
