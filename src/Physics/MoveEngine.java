@@ -1,84 +1,140 @@
 package Physics;
 
+import Main.Main;
+import Sprite.Sphere;
+
 public class MoveEngine {
 
-    private double gravity = 200;
-    private static boolean getCurrentTime = true;
 
-    public MoveEngine(long now) {
+    public MoveEngine(Sphere xySphere, Sphere xzSphere, Sphere yzSphere){
 
-        if (getCurrentTime) {
-            Time.curTime = System.currentTimeMillis();
-            getCurrentTime = false;
+
+        buildSumm(xySphere, xzSphere, yzSphere);
+        kords(xySphere, xzSphere, yzSphere);
+
+    }
+
+    private void buildSumm(Sphere xySphere, Sphere xzSphere, Sphere yzSphere){
+
+        double drag = 1.0 - (Time.timeFraction * Main.DRAG);
+
+        // X - Y
+        double vx = xySphere.getVx() + (0 * Time.timeFraction);
+        double vy = xySphere.getVy() + (Main.GRAVITY * Time.timeFraction);
+
+        xySphere.updateVelocity(vx * drag, vy, 0);
+
+        // X - Z
+        double vx_2 = xzSphere.getVx() + (0 * Time.timeFraction);
+        double vz_2 = xzSphere.getVz() + (0 * Time.timeFraction);
+
+        xzSphere.updateVelocity(vx_2 * drag, 0 , vz_2 * drag);
+
+        //Y - Z
+
+        double vz_3 = yzSphere.getVz() + (0 * Time.timeFraction);
+        double vy_3 = yzSphere.getVy() + (Main.GRAVITY * Time.timeFraction);
+
+        yzSphere.updateVelocity(0, vy_3, vz_3 * drag);
+
+    }
+
+    private void kords(Sphere xySphere, Sphere xzSphere, Sphere yzSphere){
+
+        // X - Y
+        double oldX = xySphere.getX0();
+        double oldY = xySphere.getY0();
+
+        double newX = oldX + (xySphere.getVx() * Time.timeFraction);
+        double newY = oldY + (xySphere.getVy() * Time.timeFraction);
+
+        xySphere.updatePos(newX, newY, 0);
+
+        checkGround(newY, xySphere);
+        checkWall(newX, xySphere);
+
+        // X - Z
+        double oldX_2 = xzSphere.getX0();
+        double oldZ_2 = xzSphere.getZ0();
+
+        double newX_2 = oldX_2 + (xzSphere.getVx() * Time.timeFraction);
+        double newZ_2 = oldZ_2 + (xzSphere.getVz() * Time.timeFraction);
+
+        xzSphere.updatePos(newX_2,0, newZ_2);
+
+        checkGroundXZ(newZ_2, xzSphere);
+        checkWallXZ(newX_2, xzSphere);
+
+        //Y - Z
+        double oldZ_3 = yzSphere.getZ0();
+        double oldY_3 = yzSphere.getY0();
+
+        double newZ_3 = oldZ_3 + (yzSphere.getVz() * Time.timeFraction);
+        double newY_3 = oldY_3 + (yzSphere.getVy() * Time.timeFraction);
+
+        yzSphere.updatePos(0, newY_3, newZ_3);
+
+        checkGroundYZ(newY_3, yzSphere);
+        checkWallYZ(newZ_3, yzSphere);
+
+    }
+
+    private void checkGround(double groundY, Sphere xySphere){
+        if (groundY > 385){
+            xySphere.setY0(385);
+            xySphere.setVy( -xySphere.getVy() * Main.BOUNCE);
         }
-        Time.updateTime();
-        buildSum();
-        changeBulletCoordinates();
-
     }
 
-    private void buildSum() {
-
-        /**
-         * Die Gravitation ("Schwerkraft", "Massenanziehung") ist eine Eigenschaft von Körpern, sich gegenseitig anzuziehen.
-         * Voraussetzung für das Wirken dieser Kraft ist eine Masse.
-         *
-         * Erdanziehungskraft der Erde = 9,807 m/s²
-         */
-
-        // Der Ball fällt nach unten, deswegen wird sich die Gravitation nur auf die y-Achse aus
-        // Die Fall-Geschwindigkeit wird erhöht
-
-        double vx = Velocity.getStartVx() + (0 * Time.timeFraction);
-        double vy = Velocity.getStartVy() + (gravity * Time.timeFraction);
-
-        // Simuliert die Reibung/gegen wirkende Kraft am Boden/Luft, wodurch die Geschwindigkeit in x-Richtung abnimmt
-        double drag = 1.0 - (Time.timeFraction * 0.4);
-
-        //Wert muss aktualisiert werden, um damit weiterzuarbeiten --> Flüssige Bewegung
-
-        Velocity.setStartVx(vx * drag);
-        Velocity.setStartVy(vy);
-    }
-
-    private void changeBulletCoordinates() {
-
-        double oldX = Coordinates.getStartX();
-        double oldY = Coordinates.getStartY();
-
-        double newX = oldX + (Velocity.getStartVx() * Time.timeFraction);
-        double newY = oldY + (Velocity.getStartVy() * Time.timeFraction);
-
-        Coordinates.setStartX((float) newX);
-        Coordinates.setStartY((float) newY);
-
-        checkGround(newY);
-        checkWall(newX);
-    }
-
-    private void checkGround(double groundY){
-        if (groundY > 570){
-            Coordinates.setStartY(570);
-
-            // Wichtige Formel
-            Velocity.setStartVy(-Velocity.getStartVy() * 0.6);
+    private void checkGroundXZ(double groundY, Sphere xzSphere){
+        if (groundY > 385){
+            xzSphere.setZ0(385);
+            xzSphere.setVz(-xzSphere.getVz() * Main.BOUNCE);
         }
     }
 
-    private void checkWall(double wallX){
-        if (wallX > 570){
-            Coordinates.setStartX(570);
-            Velocity.setStartVx(-Velocity.getStartVx() * 0.6);
-        }
-        if (wallX < 30){
-            Coordinates.setStartX(30);
-            Velocity.setStartVx(-Velocity.getStartVx() * 0.6);
+    private void checkGroundYZ(double groundY, Sphere yzSphere){
+        if (groundY > 385){
+            yzSphere.setY0(385);
+            yzSphere.setVy(-yzSphere.getVy() * Main.BOUNCE);
         }
     }
 
+    private void checkWall(double wallX, Sphere xySphere){
+        if (wallX>385){
+            xySphere.setX0(385);
+            xySphere.setVx(-xySphere.getVx() * Main.BOUNCE);
+        }
+        if (wallX < 15){
 
+            xySphere.setX0(15);
+            xySphere.setVx(-xySphere.getVx() * Main.BOUNCE);
+        }
+    }
 
+    private void checkWallXZ(double wallX, Sphere xzSphere){
+        if (wallX>385){
+            xzSphere.setX0(385);
+            xzSphere.setVx(-xzSphere.getVx() * Main.BOUNCE);
+        }
+        if (wallX < 15){
 
+            xzSphere.setX0(15);
+            xzSphere.setVx(-xzSphere.getVx() * Main.BOUNCE);
 
+        }
+    }
 
+    private void checkWallYZ(double wallZ, Sphere yzSphere) {
+        if (wallZ > 385) {
+            yzSphere.setZ0(385);
+            yzSphere.setVz(-yzSphere.getVz() * Main.BOUNCE);
+
+        }
+        if (wallZ < 15) {
+            yzSphere.setZ0(15);
+            yzSphere.setVz(-yzSphere.getVz() * Main.BOUNCE);
+
+        }
+    }
 }

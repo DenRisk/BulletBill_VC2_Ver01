@@ -2,9 +2,10 @@
     -fx-background-color:  #2E3449;
 }
 #startgame, #quitgame {
-    -fx-background-color:  #151928;
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
 }
 
 #startgame:hover, #quitgame:hover {
-    -fx-background-color: #5F6B96;
+    -fx-background-color: #A43A4D;
 }

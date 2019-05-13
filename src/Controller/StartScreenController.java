@@ -1,9 +1,9 @@
 package Controller;
 
-import Main.Main;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -28,7 +28,7 @@ public class StartScreenController {
     }
 
     public void loadGame() {
-        loadFXML("/fxml/GameScreen.fxml");
+        loadFXML("/fxml/Simulation.fxml");
 
     }
 

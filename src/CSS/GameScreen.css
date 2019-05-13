@@ -16,11 +16,15 @@
 }
 
 #playbtn:hover, #breakbtn:hover, #repeatbtn:hover{
-    -fx-background-color: #5F6B96;
+    -fx-background-color: #A43A4D;
 }
 
 
 
 #topPane, #botPane {
     -fx-background-color: #8FA1E3;
+}
+
+#canvasBL, #canvasBR, #canvasTL, #canvasTR, #grid {
+    -fx-background-color: #ffffff;
 }
